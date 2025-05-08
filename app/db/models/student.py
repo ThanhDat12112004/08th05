@@ -13,7 +13,7 @@ class Student(BaseModel):
         address: Optional[str] = None,
         phone: Optional[str] = None,
         class_id: Optional[str] = None,
-        account_id: Optional[str] = None,
+        account_id: Optional[int] = None,
     ):
         self.student_id = student_id
         self.full_name = full_name
@@ -37,7 +37,7 @@ class Student(BaseModel):
                 Email VARCHAR(100) NOT NULL,
                 Phone VARCHAR(20),
                 ClassID VARCHAR(50) REFERENCES Classes(ClassID),
-                AccountID VARCHAR(50) REFERENCES Accounts(AccountID),
+                AccountID INTEGER REFERENCES Accounts(AccountID),
                 CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 

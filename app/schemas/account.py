@@ -13,7 +13,7 @@ class AccountUpdate(BaseModel):
     role: Optional[str] = None
 
 class Account(BaseModel):
-    account_id: int
+    accountid: int
     username: str
     role: str
     created_at: Optional[str] = None

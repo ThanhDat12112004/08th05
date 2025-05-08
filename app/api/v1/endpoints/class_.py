@@ -5,29 +5,27 @@ from app.services import class_service
 
 router = APIRouter(prefix="/classes", tags=["classes"])
 
-@router.post("/")
+@router.post("/",)
 async def create_class_endpoint(class_: Class, db=Depends(get_db)):
     result = await class_service.create_class(db, class_)
     if result.get("message") == "Thêm lớp học không thành công":
         raise HTTPException(status_code=400, detail=result.get("error", "Lỗi khi thêm lớp học"))
     return result
 
-@router.get("/{classId}")
+@router.get("/{classId}",response_model=Class)
 async def get_class_endpoint(classId: str, db=Depends(get_db)):
     try:
         result = await class_service.get_class(db, classId)
-        if not result.get("data"):
-            raise HTTPException(status_code=404, detail="Không tìm thấy lớp học")
-        return result
+        return Class(**result)
     except ValueError as ve:
-        raise HTTPException(status_code=404, detail=str(ve))
+        raise HTTPException(status_code=404)
 
-@router.get("/")
+@router.get("/",response_model=list[Class])
 async def get_all_classes_endpoint(db=Depends(get_db)):
     result = await class_service.get_all_classes(db)
-    if not result.get("data"):
-        raise HTTPException(status_code=404, detail="Không tìm thấy lớp học")
-    return result
+    if not result:
+        raise HTTPException(status_code=404)
+    return [Class(**item) for item in result]
 
 @router.put("/{classId}")
 async def update_class_endpoint(classId: str, class_: Class, db=Depends(get_db)):

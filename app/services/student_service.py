@@ -4,46 +4,47 @@ from app.schemas.student import Student
 
 async def create_student(db, student: Student):
     try:
-        date_of_birth = datetime.strptime(student.dateOfBirth, '%Y-%m-%d').date() if student.dateOfBirth else None
+        date_of_birth = datetime.strptime(student.dateofbirth, '%Y-%m-%d').date() if student.dateofbirth else None
         query = """
-            INSERT INTO Students (StudentID, FullName, DateOfBirth, Gender, Address, Email, Phone, ClassID)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+            INSERT INTO Students (StudentID, FullName, DateOfBirth, Gender, Address, Email, Phone, ClassID, AccountID)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             RETURNING *
         """
         result = await db.fetchrow(
             query,
-            student.studentId,
-            student.fullName,
+            student.studentid,
+            student.fullname,
             date_of_birth,
             student.gender,
             student.address,
             student.email,
             student.phone,
-            student.classId
+            student.classid,
+            student.accountid
         )
         if result:
-            return {"message": "Thêm sinh viên thành công", "data": dict(result)}
-        return {"message": "Thêm sinh viên không thành công"}
+            student = dict(result)
+            if student.get('dateofbirth'):
+                student['dateofbirth'] = student['dateofbirth'].strftime('%Y-%m-%d')
+            return student
+        return None
     except ValidationError as ve:
-        return {"message": "Dữ liệu không hợp lệ", "error": str(ve)}
+        raise ValueError("Dữ liệu không hợp lệ", ve.errors())
     except Exception as e:
-        return {"message": "Thêm sinh viên không thành công", "error": str(e)}
+        raise ValueError("Thêm sinh viên không thành công", str(e))
 
 async def get_student(db, studentId: str):
     try:
         query = "SELECT * FROM Students WHERE StudentID = $1"
         result = await db.fetchrow(query, studentId)
         if result:
-            student_data = dict(result)
-            if student_data.get('DateOfBirth'):
-                today = datetime.now().date()
-                born = student_data['DateOfBirth']
-                age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
-                student_data['tuoi'] = age
-            return {"data": student_data, "message": "Đã tìm thấy sinh viên"}
-        return {"data": None, "message": "Không tìm thấy sinh viên"}
+            student = dict(result)
+            if student.get('dateofbirth'):
+                student['dateofbirth'] = student['dateofbirth'].strftime('%Y-%m-%d')
+            return student
+        return None
     except Exception as e:
-        return {"data": None, "message": "Lỗi khi tìm sinh viên", "error": str(e)}
+        return None
 
 async def get_all_students(db):
     try:
@@ -51,14 +52,11 @@ async def get_all_students(db):
         results = await db.fetch(query)
         students = [dict(result) for result in results]
         for student in students:
-            if student.get('DateOfBirth'):
-                today = datetime.now().date()
-                born = student['DateOfBirth']
-                age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
-                student['tuoi'] = age
-        return {"data": students, "message": "Lấy danh sách sinh viên thành công"}
+            if student.get('dateofbirth'):
+                student['dateofbirth'] = student['dateofbirth'].strftime('%Y-%m-%d')      
+        return students
     except Exception as e:
-        return {"data": None, "message": "Lỗi khi lấy danh sách sinh viên", "error": str(e)}
+        return None
 
 async def update_student(db, studentId: str, student: Student):
     try:

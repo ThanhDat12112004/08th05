@@ -34,7 +34,7 @@ LOGGING_CONFIG = {
         "": {  # Root logger
             "handlers": ["console", "file"],
             "level": "INFO",
-            "encoding": "utf-8",  # Thêm dòng này để hỗ trợ Unicode
+            "encoding": "utf-8", 
         },
     },
 }

@@ -28,7 +28,7 @@ async def get_class(db, classId: str):
         query = "SELECT * FROM Classes WHERE ClassID = $1"
         result = await db.fetchrow(query, classId)
         if result:
-            return {"data": dict(result), "message": "Đã tìm thấy lớp học"}
+            return result
         return {"data": None, "message": "Không tìm thấy lớp học"}
     except Exception as e:
         return {"data": None, "message": "Lỗi khi tìm lớp học", "error": str(e)}
@@ -38,7 +38,7 @@ async def get_all_classes(db):
         query = "SELECT * FROM Classes"
         results = await db.fetch(query)
         classes = [dict(result) for result in results]
-        return {"data": classes, "message": "Lấy danh sách lớp học thành công"}
+        return results
     except Exception as e:
         return {"data": None, "message": "Lỗi khi lấy danh sách lớp học", "error": str(e)}
 
@@ -57,14 +57,12 @@ async def update_class(db, classId: str, class_: Class):
             class_.facultyId,
             classId
         )
-        if result:
-            return {"message": "Cập nhật lớp học thành công", "data": dict(result)}
-        return {"message": "Cập nhật lớp học không thành công"}
+
+        return result 
     except ValidationError as ve:
         return {"message": "Dữ liệu không hợp lệ", "error": str(ve)}
     except Exception as e:
         return {"message": "Cập nhật lớp học không thành công", "error": str(e)}
-
 async def delete_class(db, classId: str):
     try:
         query = "DELETE FROM Classes WHERE ClassID = $1 RETURNING *"

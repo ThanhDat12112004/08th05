@@ -16,10 +16,12 @@ logger = logging.getLogger(__name__)
 async def init_db() -> None:
     """Initialize database tables"""
     try:
+        print(settings.POSTGRES_URI)
+        # Connect to the database
         conn = await asyncpg.connect(settings.POSTGRES_URI)
         
         # Create tables in order (respecting foreign key constraints)
-        models = [Faculty, Teacher, Class, Student, Subject, Grade, Account]
+        models = [Faculty, Teacher, Class, Account, Student, Subject, Grade]
         
         for model in models:
             await model.create_table(conn)

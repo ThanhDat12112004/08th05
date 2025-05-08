@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "${SERVER_PORT:-3000}:3000"
+      - "${SERVER_PORT:-3003}:3003"
     env_file:
       - .env
     depends_on:
