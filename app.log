@@ -3274,3 +3274,24 @@ AttributeError: module 'bcrypt' has no attribute '__about__'
 2025-05-08 07:49:37 - app.db.init_db - INFO - Created table for Grade
 2025-05-08 07:49:37 - app.db.init_db - INFO - Database initialization completed successfully
 2025-05-08 07:49:37 - app.main - INFO - Database initialized successfully
+2025-05-09 14:48:45 - app.main - INFO - Initializing database...
+2025-05-09 14:48:45 - app.db.init_db - ERROR - Error initializing database: invalid DSN: scheme is expected to be either "postgresql" or "postgres", got 'postgresql+asyncpg'
+2025-05-09 14:49:39 - app.main - INFO - Initializing database...
+2025-05-09 14:50:01 - app.db.init_db - ERROR - Error initializing database: [Errno 10060] Connect call failed ('3.234.3.0', 5432)
+2025-05-09 14:50:37 - app.main - INFO - Initializing database...
+2025-05-09 14:50:58 - app.db.init_db - ERROR - Error initializing database: [Errno 10060] Connect call failed ('3.234.3.0', 5432)
+2025-05-09 15:04:43 - app.main - INFO - Initializing database...
+2025-05-09 15:04:43 - app.db.init_db - ERROR - Error initializing database: invalid DSN: scheme is expected to be either "postgresql" or "postgres", got 'postgresql+asyncpg'
+2025-05-09 15:05:35 - app.main - INFO - Initializing database...
+2025-05-09 15:05:42 - app.db.init_db - ERROR - Error initializing database: [Errno 11001] getaddrinfo failed
+2025-05-09 15:06:10 - app.main - INFO - Initializing database...
+2025-05-09 15:06:11 - app.db.init_db - INFO - Created table for Faculty
+2025-05-09 15:06:11 - app.db.init_db - INFO - Created table for Teacher
+2025-05-09 15:06:11 - app.db.init_db - INFO - Created table for Class
+2025-05-09 15:06:11 - app.db.init_db - INFO - Created table for Account
+2025-05-09 15:06:11 - app.db.init_db - INFO - Created table for Student
+2025-05-09 15:06:11 - app.db.init_db - INFO - Created table for Subject
+2025-05-09 15:06:11 - app.db.init_db - INFO - Created table for Grade
+2025-05-09 15:06:11 - app.db.init_db - INFO - Database initialization completed successfully
+2025-05-09 15:06:11 - app.main - INFO - Database initialized successfully
+2025-05-09 15:07:36 - app.main - INFO - Shutting down application...

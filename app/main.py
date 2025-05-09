@@ -4,6 +4,7 @@ from app.api.v1.endpoints import student, teacher, class_, faculty, grade, subje
 from app.db.init_db import init_db
 import logging
 from contextlib import asynccontextmanager
+from mangum import Mangum
 
 logger = logging.getLogger(__name__)
 
@@ -42,3 +43,6 @@ app.include_router(class_.router, prefix=settings.API_V1_STR)
 app.include_router(faculty.router, prefix=settings.API_V1_STR)
 app.include_router(grade.router, prefix=settings.API_V1_STR)
 app.include_router(subject.router, prefix=settings.API_V1_STR)
+
+# Handler cho AWS Lambda
+handler = Mangum(app)
